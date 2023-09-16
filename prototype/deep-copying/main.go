@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bytes"
+	"encoding/gob"
+	"fmt"
+)
 
 type Address struct {
 	StreetAddress, City, Country string
@@ -21,10 +25,16 @@ type Person struct {
 }
 
 func (p *Person) DeepCopy() *Person {
-	q := *p
-	q.Address = p.Address.DeepCopy()
-	copy(q.Friends, p.Friends)
-	return &q
+	b := bytes.Buffer{}
+	e := gob.NewEncoder(&b)
+	_ = e.Encode(p)
+
+	// fmt.Println(string(b.Bytes()))
+
+	d := gob.NewDecoder(&b)
+	result := Person{}
+	_ = d.Decode(&result)
+	return &result
 }
 
 func main() {
