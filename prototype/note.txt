@@ -1,0 +1,3 @@
+- deep copy
+- prototype and customize 
+- partially or fully initialized object that you copy
