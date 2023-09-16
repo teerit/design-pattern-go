@@ -8,6 +8,10 @@ import (
 	"sync"
 )
 
+type Database interface {
+	GetPopulation(name string) int
+}
+
 type singletonDatabase struct {
 	capitals map[string]int
 }
@@ -47,6 +51,7 @@ var once sync.Once
 var instance *singletonDatabase
 
 func GetSingletonDatabase() *singletonDatabase {
+	// Use sync.Once to ensure that initializeDatabase is called only once
 	once.Do(func() {
 		caps, err := readData("capitals.txt")
 		db := singletonDatabase{}
@@ -66,6 +71,27 @@ func GetTotalPopulation(cities []string) int {
 	return result
 }
 
+func GetTotalPopulationEx(db Database, cities []string) int {
+	result := 0
+	for _, city := range cities {
+		result += db.GetPopulation(city)
+	}
+	return result
+}
+
+type DummyDatabase struct {
+	DummyData map[string]int
+}
+
+func (d *DummyDatabase) GetPopulation(name string) int {
+	if len(d.DummyData) == 0 {
+		d.DummyData = map[string]int{
+			"alpha": 1,
+		}
+	}
+	return d.DummyData[name]
+}
+
 func main() {
 	db := GetSingletonDatabase()
 	pop := db.GetPopulation("Seoul")
@@ -73,7 +99,10 @@ func main() {
 
 	cities := []string{"Seoul", "Mexico City"}
 	tp := GetTotalPopulation(cities)
-	fmt.Println(tp)
 	ok := tp == (17500000 + 17400000)
 	fmt.Println(ok)
+
+	names := []string{"alpha"}
+	tp = GetTotalPopulationEx(&DummyDatabase{}, names)
+	fmt.Println(tp == 1)
 }
