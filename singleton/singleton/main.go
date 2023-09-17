@@ -105,4 +105,10 @@ func main() {
 	names := []string{"alpha"}
 	tp = GetTotalPopulationEx(&DummyDatabase{}, names)
 	fmt.Println(tp == 1)
+
+	for i := 0; i < 20; i++ {
+		go getInstance()
+	}
+
+	fmt.Scanln()
 }
