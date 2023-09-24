@@ -77,4 +77,15 @@ func main() {
 	d.SetAge(5)
 	d.Crawl()
 	d.Fly()
+
+	// Shape
+	circle := Circle{2}
+	circle.Resize(2)
+	fmt.Println(circle.Render())
+
+	redCircle := ColoredShape{&circle, "Red"}
+	fmt.Println(redCircle.Render())
+
+	rhsCircle := TransparentShape{&redCircle, 0.5}
+	fmt.Println(rhsCircle.Render())
 }
