@@ -40,13 +40,3 @@ func Connect(left, right NeuronInterface) {
 		}
 	}
 }
-
-func main() {
-	neuron1, neuron2 := &Neuron{}, &Neuron{}
-	layer1, layer2 := NewNeuronLayer(3), NewNeuronLayer(4)
-
-	Connect(neuron1, neuron2)
-	Connect(neuron1, layer1)
-	Connect(layer2, neuron1)
-	Connect(layer1, layer2)
-}
