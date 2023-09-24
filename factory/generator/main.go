@@ -10,8 +10,7 @@ type Employee struct {
 // what if we want factories for specific roles?
 
 // functional approach
-func NewEmployeeFactory(position string,
-	annualIncome int) func(name string) *Employee {
+func NewEmployeeFactory(position string, annualIncome int) func(name string) *Employee {
 	return func(name string) *Employee {
 		return &Employee{name, position, annualIncome}
 	}
@@ -23,8 +22,7 @@ type EmployeeFactory struct {
 	AnnualIncome int
 }
 
-func NewEmployeeFactory2(position string,
-	annualIncome int) *EmployeeFactory {
+func NewEmployeeFactory2(position string, annualIncome int) *EmployeeFactory {
 	return &EmployeeFactory{position, annualIncome}
 }
 
